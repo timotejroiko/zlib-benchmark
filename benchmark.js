@@ -3,7 +3,7 @@ const { fork } = require("child_process");
 const args = require('minimist')(process.argv.slice(2),{
 	string:["data","tests"],
 	default:{
-		data:"medium.json",
+		data:"small.json",
 		chunkSize:16*1024,
 	}
 });

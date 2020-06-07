@@ -51,7 +51,7 @@ Install or clone this repo, cd into its folder and run:
 
 `node benchmark.js [options]`
 
-**data** - Name of a json file placed in the `data` folder. All values will be randomized on each sample but the keys remain intact (defaults to `medium.json`)
+**data** - Name of a json file placed in the `data` folder. All values will be randomized on each sample but the keys remain intact (defaults to `small.json`)
 
 **tests** - Comma-delimited list of tests to run.
 
@@ -60,9 +60,9 @@ Install or clone this repo, cd into its folder and run:
 
 Example:
 
-`node benchmark.js --data=small.json --chunkSize=128 --tests=1,2,3,4`
+`node benchmark.js --data=medium.json --chunkSize=128 --tests=1,2,3,4`
 
-(run tests 1 2 3 and 4 on small.json with a chunkSize of 128)
+(run tests 1 2 3 and 4 on medium.json with a chunkSize of 128)
 
 
 
@@ -82,6 +82,7 @@ Example:
 Tested on an i5 7300HQ 2.5ghz running Node.js v12.16.1
 
 ```
+node benchmark.js
 Benchmarking small.json
 
 1. zlib - deflateSync
@@ -256,7 +257,8 @@ Average memory usage: 50.20 MB
 ## Findings
 
 * Brotli is extremely slow at compressing, maybe i missed something or there is something wrong with node's implementation.
-* Standalone sync is the best at compressing large amounts of data
-* Shared context sync is the best at decompressing small amounts of data
-* Compressing data below a certain size can make the compressed data larger than the actual data
-* The chunkSize option can have a substantial effect on decompression performance. Best results were obtained when chunkSize was equal or slightly larger than the compressed data size
+* Compressing data below a certain size can make the compressed data larger than the actual data (for example compressing a string of 5 characters)
+* The chunkSize option can have a substantial effect on decompression performance, especially as data grows larger. Best results were obtained when chunkSize was equal or slightly larger than the compressed data size
+* The zlib-sync package seems nearly unaffected by chunkSize
+* Sync compression is exponentially faster than Async as dada gets smaller
+* Performance difference between deflate, deflateRaw and gzip progressively becomes relevant as data size increases, otherwise the difference is negligible
