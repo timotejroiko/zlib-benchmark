@@ -16,24 +16,22 @@ let t;
 let t2;
 let t3;
 let buffer = "";
-let buffer2 = [];
+let buffer2 = Buffer.allocUnsafe(0);
 let buffer3;
 
 compress.on("data", d => {
-	if(d.length === 4 && d.readUInt32BE() === 0x0804) {
+	buffer2 = Buffer.concat([buffer2,d]);
+	if(buffer2.length >= 4 && buffer2.readUInt32BE(buffer2.length-4) === 0x0804) {
 		t2 = performance.now();
-		buffer2.push(d);
-		buffer3 = Buffer.concat(buffer2);
-		buffer2 = [];
+		buffer3 = Buffer.from(buffer2);
+		buffer2 = Buffer.allocUnsafe(0);
 		t3 = performance.now();
 		decompress.write(buffer3);
-	} else {
-		buffer2.push(d);
 	}
 });
 decompress.on("data", d => {
 	buffer += d.toString();
-	if(buffer === data + String.fromCharCode(4)) {
+	if(buffer === (data + String.fromCharCode(4))) {
 		buffer = "";
 		promise();
 	}

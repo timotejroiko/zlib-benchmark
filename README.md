@@ -9,6 +9,8 @@ Benchmarking zlib compression in node.js and comparing various methods and libra
 * [zlib-sync](https://github.com/abalabahaha/zlib-sync)
 * [pako](https://github.com/nodeca/pako)
 
+
+
 **Test List** (see `tests` folder)
 
 -- standalone sync compression --
@@ -47,199 +49,208 @@ Benchmarking zlib compression in node.js and comparing various methods and libra
 
 Install or clone this repo, cd into its folder and run:
 
-`node benchmark.js [data] [chunk size] [filter]`
+`node benchmark.js [options]`
 
 **data** - Name of a json file placed in the `data` folder. All values will be randomized on each sample but the keys remain intact (defaults to `medium.json`)
 
-**chunk size** - Integer to define the chunkSize option to be used in all zlib classes (defaults to `16384`)
+**tests** - Comma-delimited filter of tests. Tests can be filtered by their number or file name (See the `tests` folder)
 
-**filter** - Comma-delimited filter of tests. Tests can be filtered by their number or file name (See the `tests` folder)
+**[zlib option]** - Any other standard zlib option
 
 
 Example:
 
-`node benchmark.js small.json 128 1,2,3,4`
+`node benchmark.js --data=small.json --chunkSize=128 --tests=1,2,3,4`
 
 (run tests 1 2 3 and 4 on small.json with a chunkSize of 128)
 
 
 
-## Sample Results - small.json with default chunkSize
-
-Tested on an i5 7300HQ 2.5ghz running Node.js v12.16.1
-
-```
-Benchmarking small.json, with a chunkSize value of 16384
-
-1. zlib - deflateSync
-DeflateSync x 10225.39 ops/sec ± 1976.57 (4.299 MB/s)
-InflateSync x 21276.71 ops/sec ± 4547.82 (6.800 MB/s)
-Sampled 43377 chunks (18.240 MB) in 10.080 seconds
-Average compression ratio: 76.01%
-Average memory usage: 80.44 MB
-
-2. zlib - deflateRawSync
-DeflateRawSync x 10071.50 ops/sec ± 2254.58 (4.233 MB/s)
-InflateRawSync x 21385.84 ops/sec ± 5404.90 (6.711 MB/s)
-Sampled 41910 chunks (17.612 MB) in 10.010 seconds
-Average compression ratio: 74.65%
-Average memory usage: 64.18 MB
-
-3. zlib - gzipSync
-GzipSync x 11365.29 ops/sec ± 861.80 (4.787 MB/s)
-GunzipSync x 24987.46 ops/sec ± 2615.25 (8.287 MB/s)
-Sampled 46764 chunks (19.694 MB) in 10.019 seconds
-Average compression ratio: 78.74%
-Average memory usage: 79.18 MB
-
-4. zlib - brotliSync
-BrotliCompress x 428.71 ops/sec ± 56.98 (0.181 MB/s)
-BrotliDecompress x 11472.45 ops/sec ± 4072.21 (3.498 MB/s)
-Sampled 3927 chunks (1.653 MB) in 10.016 seconds
-Average compression ratio: 72.42%
-Average memory usage: 74.76 MB
-
-5. zlib - deflate stream
-Deflate Stream x 6331.87 ops/sec ± 1570.18 (2.666 MB/s)
-Inflate Stream x 9448.15 ops/sec ± 2223.03 (2.302 MB/s)
-Sampled 27579 chunks (11.608 MB) in 10.012 seconds
-Average compression ratio: 57.87%
-Average memory usage: 31.99 MB
-
-6. zlib - deflateRaw stream
-DeflateRaw Stream x 7367.59 ops/sec ± 1269.71 (3.098 MB/s)
-InflateRaw Stream x 11188.54 ops/sec ± 1999.71 (2.721 MB/s)
-Sampled 32135 chunks (13.510 MB) in 10.016 seconds
-Average compression ratio: 57.84%
-Average memory usage: 41.08 MB
-
-7. zlib - gzip stream
-Gzip Stream x 5231.12 ops/sec ± 986.17 (2.197 MB/s)
-Gunzip Stream x 7521.85 ops/sec ± 1392.35 (1.827 MB/s)
-Sampled 23049 chunks (9.683 MB) in 10.016 seconds
-Average compression ratio: 57.83%
-Average memory usage: 31.68 MB
-
-9. fast-zlib - deflate
-Deflate x 12487.46 ops/sec ± 2096.88 (5.247 MB/s)
-Inflate x 40744.57 ops/sec ± 6604.11 (9.902 MB/s)
-Sampled 50636 chunks (21.283 MB) in 10.015 seconds
-Average compression ratio: 57.83%
-Average memory usage: 41.39 MB
-
-10. fast-zlib - deflateRaw
-DeflateRaw x 14718.73 ops/sec ± 1345.75 (6.187 MB/s)
-InflateRaw x 47952.24 ops/sec ± 4470.54 (11.660 MB/s)
-Sampled 59948 chunks (25.201 MB) in 10.011 seconds
-Average compression ratio: 57.85%
-Average memory usage: 42.70 MB
-
-11. fast-zlib - deflate unsafe
-Deflate (unsafe) x 17025.44 ops/sec ± 329.86 (7.162 MB/s)
-Inflate (unsafe) x 55293.07 ops/sec ± 1887.68 (13.269 MB/s)
-Sampled 68916 chunks (28.989 MB) in 10.010 seconds
-Average compression ratio: 57.05%
-Average memory usage: 60.88 MB
-
-12. fast-zlib - gzip
-Gzip x 14286.00 ops/sec ± 938.78 (6.009 MB/s)
-Gunzip x 42578.40 ops/sec ± 2263.08 (10.363 MB/s)
-Sampled 56608 chunks (23.811 MB) in 10.016 seconds
-Average compression ratio: 57.86%
-Average memory usage: 42.59 MB
-
-13. fast-zlib - brotli
-BrotliCompress x 484.98 ops/sec ± 55.87 (0.203 MB/s)
-BrotliDecompress x 25849.50 ops/sec ± 6527.42 (5.824 MB/s)
-Sampled 4523 chunks (1.895 MB) in 10.012 seconds
-Average compression ratio: 53.75%
-Average memory usage: 48.63 MB
-
-14. zlib-sync - deflate
-Inflate x 43476.66 ops/sec ± 1222.04 (10.574 MB/s)
-Sampled 64880 chunks (27.275 MB) in 10.021 seconds
-Average memory usage: 41.79 MB
-
-15. pako - deflate
-Deflate x 3979.18 ops/sec ± 549.22 (1.671 MB/s)
-Inflate x 17327.43 ops/sec ± 2549.04 (5.532 MB/s)
-Sampled 24899 chunks (10.458 MB) in 10.022 seconds
-Average compression ratio: 76.01%
-Average memory usage: 86.06 MB
-
-16. pako - deflateRaw
-DeflateRaw x 3912.71 ops/sec ± 486.80 (1.645 MB/s)
-InflateRaw x 13707.63 ops/sec ± 2316.47 (4.302 MB/s)
-Sampled 23593 chunks (9.919 MB) in 10.008 seconds
-Average compression ratio: 74.65%
-Average memory usage: 89.89 MB
-
-17. pako - gzip
-Gzip x 3306.65 ops/sec ± 692.57 (1.389 MB/s)
-Ungzip x 14466.42 ops/sec ± 3767.74 (4.786 MB/s)
-Sampled 20816 chunks (8.744 MB) in 10.014 seconds
-Average compression ratio: 78.73%
-Average memory usage: 81.50 MB
-
-18. pako - deflate stream
-Deflate stream x 8046.63 ops/sec ± 1129.91 (3.379 MB/s)
-Inflate stream x 22575.28 ops/sec ± 3331.89 (5.482 MB/s)
-Sampled 38246 chunks (16.063 MB) in 10.014 seconds
-Average compression ratio: 57.83%
-Average memory usage: 52.59 MB
-
-19. pako - deflateRaw stream
-DeflateRaw stream x 8600.66 ops/sec ± 286.87 (3.617 MB/s)
-InflateRaw stream x 24767.14 ops/sec ± 1063.89 (6.026 MB/s)
-Sampled 41235 chunks (17.339 MB) in 10.008 seconds
-Average compression ratio: 57.86%
-Average memory usage: 56.66 MB
-
-20. pako - gzip stream
-Gzip stream x 7047.13 ops/sec ± 607.91 (2.963 MB/s)
-Inflate stream x 20104.10 ops/sec ± 804.81 (4.889 MB/s)
-Sampled 33699 chunks (14.167 MB) in 10.012 seconds
-Average compression ratio: 57.84%
-Average memory usage: 49.07 MB
-
-21. minizlib - deflate stream
-Deflate stream x 12505.45 ops/sec ± 2165.27 (5.266 MB/s)
-Inflate stream x 34000.87 ops/sec ± 5144.76 (8.289 MB/s)
-Sampled 51953 chunks (21.882 MB) in 10.034 seconds
-Average compression ratio: 57.89%
-Average memory usage: 43.03 MB
-
-22. minizlib - deflateRaw stream
-DeflateRaw stream x 10753.11 ops/sec ± 3124.50 (4.523 MB/s)
-InflateRaw stream x 28415.98 ops/sec ± 9431.34 (6.916 MB/s)
-Sampled 44270 chunks (18.618 MB) in 10.012 seconds
-Average compression ratio: 57.86%
-Average memory usage: 42.01 MB
-
-23. minizlib - gzip stream
-Gzip stream x 12632.33 ops/sec ± 932.77 (5.319 MB/s)
-Gunzip stream x 33586.29 ops/sec ± 1743.34 (8.186 MB/s)
-Sampled 52193 chunks (21.975 MB) in 10.010 seconds
-Average compression ratio: 57.89%
-Average memory usage: 43.20 MB
-
-24. minizlib - brotli stream
-BrotliCompress stream x 432.58 ops/sec ± 60.64 (0.182 MB/s)
-BrotliDecompress stream x 13985.84 ops/sec ± 4486.16 (3.155 MB/s)
-Sampled 3980 chunks (1.670 MB) in 10.033 seconds
-Average compression ratio: 53.77%
-Average memory usage: 47.55 MB
-```
-
 ## Notes
 
 * Each test is run in a dedicated child process
 * Each test does a 2 second warmup run before starting
-* The test fires 10 runs of 1 second each in order to obtain an average and a standard deviation
-* Average memory usage measures `process.memoryUsage.rss()` in the child process at the end of the test. This is only a rough estimate and may not reflect real world memory usage
-* Streams are difficult to benchmark correctly, especially async streams. Their results may be less accurate than sync methods
-* The tested data consists of fields from the supplied json file with randomized values on each sample in order to make a real world usage approximation.
-* I have attempted to use the well known benchmark.js library but was not able to obtain good results with it. The current manual benchmark produces more consistent results
+* The test consists of 10 runs of 1 second each in order to obtain an average and a standard deviation
+* Average memory usage is obtained from `process.memoryUsage.rss()` in the child process at the end of the test. This is only a rough estimate and may not reflect real world memory usage
+* Streams are difficult to benchmark correctly, especially async streams. Their results may be less accurate than other methods
+* The tested data consists of a supplied json file with randomized values on each chunk in order to approximate real world usage.
+
+
+
+## Sample Results
+
+Tested on an i5 7300HQ 2.5ghz running Node.js v12.16.1
+
+```
+Benchmarking small.json
+
+1. zlib - deflateSync
+DeflateSync x 10968.89 ops/sec ± 796.26 (4.610 MB/s)
+InflateSync x 26211.44 ops/sec ± 2986.66 (8.375 MB/s)
+Sampled 47028 chunks (19.767 MB) in 10.013 seconds
+Average compression ratio: 76.02%
+Average memory usage: 79.29 MB
+
+2. zlib - deflateRawSync
+DeflateRawSync x 10960.82 ops/sec ± 753.67 (4.610 MB/s)
+InflateRawSync x 24143.13 ops/sec ± 3384.77 (7.581 MB/s)
+Sampled 45987 chunks (19.344 MB) in 10.038 seconds
+Average compression ratio: 74.65%
+Average memory usage: 71.79 MB
+
+3. zlib - gzipSync
+GzipSync x 10628.02 ops/sec ± 329.51 (4.469 MB/s)
+GunzipSync x 21188.36 ops/sec ± 970.31 (7.014 MB/s)
+Sampled 44441 chunks (18.686 MB) in 10.009 seconds
+Average compression ratio: 78.73%
+Average memory usage: 76.68 MB
+
+4. zlib - brotliSync
+BrotliCompress x 439.51 ops/sec ± 12.41 (0.185 MB/s)
+BrotliDecompress x 10523.37 ops/sec ± 2197.02 (3.207 MB/s)
+Sampled 4012 chunks (1.689 MB) in 10.017 seconds
+Average compression ratio: 72.41%
+Average memory usage: 82.09 MB
+
+5. zlib - deflate stream
+Deflate Stream x 7841.97 ops/sec ± 189.92 (3.300 MB/s)
+Inflate Stream x 11958.65 ops/sec ± 409.98 (2.912 MB/s)
+Sampled 33407 chunks (14.058 MB) in 10.015 seconds
+Average compression ratio: 57.87%
+Average memory usage: 41.09 MB
+
+6. zlib - deflateRaw stream
+DeflateRaw Stream x 8077.28 ops/sec ± 179.42 (3.397 MB/s)
+InflateRaw Stream x 12363.92 ops/sec ± 488.99 (3.009 MB/s)
+Sampled 34326 chunks (14.436 MB) in 10.009 seconds
+Average compression ratio: 57.86%
+Average memory usage: 41.39 MB
+
+7. zlib - gzip stream
+Gzip Stream x 7834.07 ops/sec ± 592.74 (3.292 MB/s)
+Gunzip Stream x 11909.33 ops/sec ± 853.15 (2.895 MB/s)
+Sampled 33528 chunks (14.087 MB) in 10.011 seconds
+Average compression ratio: 57.84%
+Average memory usage: 41.11 MB
+
+8. zlib - brotli stream
+BrotliCompress Stream x 476.38 ops/sec ± 13.69 (0.200 MB/s)
+BrotliDecompress Stream x 6956.44 ops/sec ± 924.68 (1.600 MB/s)
+Sampled 4237 chunks (1.782 MB) in 10.015 seconds
+Average compression ratio: 54.70%
+Average memory usage: 48.35 MB
+
+9. fast-zlib - deflate
+Deflate x 14328.70 ops/sec ± 749.38 (6.027 MB/s)
+Inflate x 45263.89 ops/sec ± 2054.89 (11.017 MB/s)
+Sampled 57985 chunks (24.393 MB) in 10.011 seconds
+Average compression ratio: 57.86%
+Average memory usage: 42.39 MB
+
+10. fast-zlib - deflateRaw
+DeflateRaw x 14637.64 ops/sec ± 312.55 (6.157 MB/s)
+InflateRaw x 47182.48 ops/sec ± 1241.05 (11.482 MB/s)
+Sampled 58887 chunks (24.769 MB) in 10.010 seconds
+Average compression ratio: 57.86%
+Average memory usage: 42.76 MB
+
+11. fast-zlib - deflate unsafe
+Deflate (unsafe) x 15846.46 ops/sec ± 259.28 (6.660 MB/s)
+Inflate (unsafe) x 48774.89 ops/sec ± 1338.21 (11.692 MB/s)
+Sampled 62275 chunks (26.173 MB) in 10.010 seconds
+Average compression ratio: 57.04%
+Average memory usage: 42.31 MB
+
+12. fast-zlib - gzip
+Gzip x 14455.17 ops/sec ± 339.74 (6.084 MB/s)
+Gunzip x 43610.31 ops/sec ± 1297.90 (10.623 MB/s)
+Sampled 58496 chunks (24.620 MB) in 10.011 seconds
+Average compression ratio: 57.88%
+Average memory usage: 42.88 MB
+
+13. fast-zlib - brotli
+BrotliCompress x 497.11 ops/sec ± 13.07 (0.209 MB/s)
+BrotliDecompress x 26388.45 ops/sec ± 2009.81 (5.978 MB/s)
+Sampled 4631 chunks (1.949 MB) in 10.015 seconds
+Average compression ratio: 53.82%
+Average memory usage: 50.06 MB
+
+14. zlib-sync - deflate
+Inflate x 40773.15 ops/sec ± 1000.03 (9.925 MB/s)
+Sampled 59958 chunks (25.223 MB) in 10.004 seconds
+Average memory usage: 41.56 MB
+
+15. pako - deflate
+Deflate x 3711.99 ops/sec ± 391.06 (1.561 MB/s)
+Inflate x 15191.23 ops/sec ± 2641.48 (4.857 MB/s)
+Sampled 22832 chunks (9.602 MB) in 10.010 seconds
+Average compression ratio: 76.02%
+Average memory usage: 87.19 MB
+
+16. pako - deflateRaw
+DeflateRaw x 3879.65 ops/sec ± 413.75 (1.633 MB/s)
+InflateRaw x 13243.61 ops/sec ± 1994.89 (4.161 MB/s)
+Sampled 23190 chunks (9.757 MB) in 10.010 seconds
+Average compression ratio: 74.66%
+Average memory usage: 86.30 MB
+
+17. pako - gzip
+Gzip x 3747.84 ops/sec ± 305.38 (1.577 MB/s)
+Ungzip x 15947.79 ops/sec ± 1957.70 (5.283 MB/s)
+Sampled 23227 chunks (9.773 MB) in 10.010 seconds
+Average compression ratio: 78.74%
+Average memory usage: 84.73 MB
+
+18. pako - deflate stream
+Deflate stream x 8040.89 ops/sec ± 204.37 (3.382 MB/s)
+Inflate stream x 22794.94 ops/sec ± 272.99 (5.547 MB/s)
+Sampled 38272 chunks (16.094 MB) in 10.010 seconds
+Average compression ratio: 57.86%
+Average memory usage: 51.82 MB
+
+19. pako - deflateRaw stream
+DeflateRaw stream x 8199.24 ops/sec ± 230.43 (3.451 MB/s)
+InflateRaw stream x 23560.38 ops/sec ± 1093.83 (5.739 MB/s)
+Sampled 38731 chunks (16.302 MB) in 10.012 seconds
+Average compression ratio: 57.87%
+Average memory usage: 55.06 MB
+
+20. pako - gzip stream
+Gzip stream x 8001.61 ops/sec ± 124.87 (3.366 MB/s)
+Inflate stream x 21674.04 ops/sec ± 647.87 (5.276 MB/s)
+Sampled 38010 chunks (15.991 MB) in 10.030 seconds
+Average compression ratio: 57.86%
+Average memory usage: 52.78 MB
+
+21. minizlib - deflate stream
+Deflate stream x 13325.03 ops/sec ± 215.99 (5.604 MB/s)
+Inflate stream x 34143.60 ops/sec ± 1123.13 (8.308 MB/s)
+Sampled 54542 chunks (22.938 MB) in 10.009 seconds
+Average compression ratio: 57.86%
+Average memory usage: 43.30 MB
+
+22. minizlib - deflateRaw stream
+DeflateRaw stream x 13636.91 ops/sec ± 198.48 (5.731 MB/s)
+InflateRaw stream x 35254.97 ops/sec ± 853.22 (8.570 MB/s)
+Sampled 55789 chunks (23.447 MB) in 10.011 seconds
+Average compression ratio: 57.84%
+Average memory usage: 43.49 MB
+
+23. minizlib - gzip stream
+Gzip stream x 12779.88 ops/sec ± 365.44 (5.371 MB/s)
+Gunzip stream x 32603.19 ops/sec ± 1272.12 (7.925 MB/s)
+Sampled 53075 chunks (22.305 MB) in 10.031 seconds
+Average compression ratio: 57.84%
+Average memory usage: 43.41 MB
+
+24. minizlib - brotli stream
+BrotliCompress stream x 492.25 ops/sec ± 13.17 (0.207 MB/s)
+BrotliDecompress stream x 16250.46 ops/sec ± 1800.75 (3.680 MB/s)
+Sampled 4538 chunks (1.910 MB) in 10.018 seconds
+Average compression ratio: 53.79%
+Average memory usage: 50.20 MB
+```
+
 
 
 ## Findings
@@ -248,4 +259,4 @@ Average memory usage: 47.55 MB
 * Standalone sync is the best at compressing large amounts of data
 * Shared context sync is the best at decompressing small amounts of data
 * Compressing data below a certain size can make the compressed data larger than the actual data
-* The chunkSize option can have a substantial effect on decompression performance. The best results were obtained when chunkSize was equal or slightly larger than the data size
+* The chunkSize option can have a substantial effect on decompression performance. Best results were obtained when chunkSize was equal or slightly larger than the compressed data size
