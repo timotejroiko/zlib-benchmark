@@ -53,7 +53,7 @@ Install or clone this repo, cd into its folder and run:
 
 **data** - Name of a json file placed in the `data` folder. All values will be randomized on each sample but the keys remain intact (defaults to `medium.json`)
 
-**tests** - Comma-delimited filter of tests. Tests can be filtered by their number or file name (See the `tests` folder)
+**tests** - Comma-delimited list of tests to run.
 
 **[zlib option]** - Any other standard zlib option
 
