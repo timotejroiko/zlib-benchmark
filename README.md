@@ -12,37 +12,34 @@ Benchmarking zlib compression in node.js and comparing various methods and libra
 **Test List** (see `tests` folder)
 
 -- standalone sync compression --
-
- 1. zlib deflateSync - tests `zlib.deflateSync()` and `zlib.inflateSync()`
- 2. zlib deflateRawSync - tests `zlib.deflateRawSync()` and `zlib.inflateRawSync()`
- 3. zlib gzipSync - tests `zlib.gzipSync()` and `zlib.gunzipSync()`
- 4. zlib brotliSync - tests `zlib.brotliCompressSync()` and `zlib.brotliDecompressSync()`
- 15. pako deflate - tests `pako.inflate()` and `pako.deflate()`
- 16. pako deflateRaw - tests `pako.inflateRaw()` and `pako.deflateRaw()`
- 17. pako gzip - tests `pako.gzip()` and `pako.ungzip()`
+* 1 zlib deflateSync - tests `zlib.deflateSync()` and `zlib.inflateSync()`
+* 2 zlib deflateRawSync - tests `zlib.deflateRawSync()` and `zlib.inflateRawSync()`
+* 3 zlib gzipSync - tests `zlib.gzipSync()` and `zlib.gunzipSync()`
+* 4 zlib brotliSync - tests `zlib.brotliCompressSync()` and `zlib.brotliDecompressSync()`
+* 15 pako deflate - tests `pako.inflate()` and `pako.deflate()`
+* 16 pako deflateRaw - tests `pako.inflateRaw()` and `pako.deflateRaw()`
+* 17 pako gzip - tests `pako.gzip()` and `pako.ungzip()`
 
 -- shared context async compression --
-
- 5. zlib deflate stream - tests `new zlib.Deflate()` and `new zlib.Inflate()`
- 6. zlib deflateRaw stream - tests `new zlib.DeflateRaw()` and `new zlib.InflateRaw()`
- 7. zlib gzip stream - tests `new zlib.Gzip()` and `new zlib.Gunzip()`
- 8. zlib brotli stream - tests `new zlib.BrotliCompress()` and `new zlib.BrotliDecompress()`
+* 5 zlib deflate stream - tests `new zlib.Deflate()` and `new zlib.Inflate()`
+* 6 zlib deflateRaw stream - tests `new zlib.DeflateRaw()` and `new zlib.InflateRaw()`
+* 7 zlib gzip stream - tests `new zlib.Gzip()` and `new zlib.Gunzip()`
+* 8 zlib brotli stream - tests `new zlib.BrotliCompress()` and `new zlib.BrotliDecompress()`
 
 -- shared context sync compression --
-
- 9. fast-zlib deflate - tests `fastzlib("deflate")` and `fastzlib("inflate")`
- 10. fast-zlib deflateRaw - tests `fastzlib("deflateRaw")` and `fastzlib("inflateRaw")`
- 11. fast-zlib deflate unsafe - tests `fastzlib("deflate")` and `fastzlib("inflate")` both in unsafe mode
- 12. fast-zlib gzip - tests `fastzlib("gzip")` and `fastzlib("gunzip")`
- 13. fast-zlib brotliCompress - tests `fastzlib("brotliCompress")` and `fastzlib("brotliDecompress")`
- 14. zlib-sync inflate - tests `new zlibsync.Inflate()`
- 18. pako deflate stream - tests `new pako.Inflate()` and `new pako.Deflate()`
- 19. pako deflateRaw stream - tests `new pako.Inflate({raw:true})` and `new pako.Deflate({raw:true})`
- 20. pako gzip stream - tests `new pako.Inflate({gzip:true})` and `new pako.Deflate()`
- 21. minizlib deflate stream - tests `new minizlib.Inflate()` and `new minizlib.Deflate()`
- 22. minizlib deflateRaw stream - tests `new minizlib.InflateRaw()` and `new minizlib.DeflateRaw()`
- 23. minizlib gzip stream - tests `new minizlib.Gzip()` and `new minizlib.Gunzip()`
- 24. minizlib brotli stream - tests `new minizlib.BrotliCompress()` and `new minizlib.BrotliDecompress()`
+* 9 fast-zlib deflate - tests `fastzlib("deflate")` and `fastzlib("inflate")`
+* 10 fast-zlib deflateRaw - tests `fastzlib("deflateRaw")` and `fastzlib("inflateRaw")`
+* 11 fast-zlib deflate unsafe - tests `fastzlib("deflate")` and `fastzlib("inflate")` both in unsafe mode
+* 12 fast-zlib gzip - tests `fastzlib("gzip")` and `fastzlib("gunzip")`
+* 13 fast-zlib brotliCompress - tests `fastzlib("brotliCompress")` and `fastzlib("brotliDecompress")`
+* 14 zlib-sync inflate - tests `new zlibsync.Inflate()`
+* 18 pako deflate stream - tests `new pako.Inflate()` and `new pako.Deflate()`
+* 19 pako deflateRaw stream - tests `new pako.Inflate({raw:true})` and `new pako.Deflate({raw:true})`
+* 20 pako gzip stream - tests `new pako.Inflate({gzip:true})` and `new pako.Deflate()`
+* 21 minizlib deflate stream - tests `new minizlib.Inflate()` and `new minizlib.Deflate()`
+* 22 minizlib deflateRaw stream - tests `new minizlib.InflateRaw()` and `new minizlib.DeflateRaw()`
+* 23 minizlib gzip stream - tests `new minizlib.Gzip()` and `new minizlib.Gunzip()`
+* 24 minizlib brotli stream - tests `new minizlib.BrotliCompress()` and `new minizlib.BrotliDecompress()`
 
 
 
