@@ -12,6 +12,7 @@ Benchmarking zlib compression in node.js and comparing various methods and libra
 **Test List** (see `tests` folder)
 
 -- standalone sync compression --
+
  1. zlib deflateSync - tests `zlib.deflateSync()` and `zlib.inflateSync()`
  2. zlib deflateRawSync - tests `zlib.deflateRawSync()` and `zlib.inflateRawSync()`
  3. zlib gzipSync - tests `zlib.gzipSync()` and `zlib.gunzipSync()`
@@ -21,12 +22,14 @@ Benchmarking zlib compression in node.js and comparing various methods and libra
  17. pako gzip - tests `pako.gzip()` and `pako.ungzip()`
 
 -- shared context async compression --
+
  5. zlib deflate stream - tests `new zlib.Deflate()` and `new zlib.Inflate()`
  6. zlib deflateRaw stream - tests `new zlib.DeflateRaw()` and `new zlib.InflateRaw()`
  7. zlib gzip stream - tests `new zlib.Gzip()` and `new zlib.Gunzip()`
  8. zlib brotli stream - tests `new zlib.BrotliCompress()` and `new zlib.BrotliDecompress()`
 
 -- shared context sync compression --
+
  9. fast-zlib deflate - tests `fastzlib("deflate")` and `fastzlib("inflate")`
  10. fast-zlib deflateRaw - tests `fastzlib("deflateRaw")` and `fastzlib("inflateRaw")`
  11. fast-zlib deflate unsafe - tests `fastzlib("deflate")` and `fastzlib("inflate")` both in unsafe mode
