@@ -8,6 +8,7 @@ Benchmarking zlib compression in node.js and comparing various methods and libra
 * [fast-zlib](https://github.com/timotejroiko/fast-zlib)
 * [zlib-sync](https://github.com/abalabahaha/zlib-sync)
 * [pako](https://github.com/nodeca/pako)
+* [minizlib](https://github.com/isaacs/minizlib)
 
 
 
