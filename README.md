@@ -72,7 +72,7 @@ Example:
 * Each test is run in a dedicated child process
 * Each test does a 2 second warmup run before starting
 * The test consists of 10 runs of 1 second each in order to obtain an average and a standard deviation
-* Average memory usage is obtained from `process.memoryUsage.rss()` in the child process at the end of the test. This is only a rough estimate and may not reflect real world memory usage
+* Average memory usage is obtained from `process.memoryUsage().rss` in the child process at the end of the test. This is only a rough estimate and may not reflect real world memory usage
 * Streams are difficult to benchmark correctly, especially async streams. Their results may be less accurate than other methods
 * The tested data consists of a supplied json file with randomized values on each chunk in order to approximate real world usage.
 
