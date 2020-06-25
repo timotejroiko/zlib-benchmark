@@ -261,5 +261,5 @@ Average memory usage: 50.20 MB
 * Compressing data below a certain size can make the compressed data larger than the actual data (for example compressing a string of 5 characters)
 * The chunkSize option can have a substantial effect on decompression performance, especially as data grows larger. Best results were obtained when chunkSize was equal or slightly larger than the compressed data size
 * The zlib-sync package seems nearly unaffected by chunkSize
-* Sync compression is exponentially faster than Async as dada gets smaller
+* Sync compression is exponentially faster than Async as data gets smaller
 * Performance difference between deflate, deflateRaw and gzip progressively becomes relevant as data size increases, otherwise the difference is negligible
