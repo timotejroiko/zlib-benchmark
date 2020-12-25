@@ -4,17 +4,29 @@ const { performance } = require("perf_hooks");
 const fs = require("fs");
 const functions = require("../functions.js");
 
-const zlib = require("zlib");
+let zlib;
+try {
+	zlib = require("minizlib");
+} catch(e) {
+	console.log(`${__filename.slice(__dirname.length + 1).slice(0, -3)} (skipping, pako not installed)`);
+	process.exit();
+}
 
 const args = JSON.parse(process.argv[2]);
 if(args.dictionary) { args.dictionary = Buffer.from(args.dictionary); }
 const dat = fs.readFileSync(`./data/${args.data}`, "utf8");
+const compress = new zlib.BrotliCompress(args);
+const decompress = new zlib.BrotliDecompress(args);
 
 const warmup = performance.now();
 while(performance.now() < warmup + 2000) {
 	const data = functions.randomize(dat);
-	const c = zlib.deflateSync(data, args);
-	const d = zlib.inflateSync(c, args);
+	compress.write(data);
+	compress.flush(zlib.constants.BROTLI_OPERATION_FLUSH);
+	const c = compress.read();
+	decompress.write(c);
+	decompress.flush(zlib.constants.BROTLI_OPERATION_FLUSH);
+	const d = decompress.read();
 	if(d.toString() !== data) { throw new Error("data validation failed"); }
 }
 
@@ -35,11 +47,15 @@ while(performance.now() < run + 10000) {
 		const data = functions.randomize(dat);
 		s4.push(Buffer.from(data).length);
 		let t = performance.now();
-		const c = zlib.deflateSync(data, args);
+		compress.write(data);
+		compress.flush(zlib.constants.BROTLI_OPERATION_FLUSH);
+		const c = compress.read();
 		s1.push(performance.now() - t);
 		s3.push(c.length);
 		t = performance.now();
-		const d = zlib.inflateSync(c, args);
+		decompress.write(c);
+		decompress.flush(zlib.constants.BROTLI_OPERATION_FLUSH);
+		const d = decompress.read();
 		s2.push(performance.now() - t);
 		if(d.toString() !== data) { throw new Error("data validation failed"); }
 		ops++;
@@ -61,8 +77,8 @@ const dev2 = functions.dev(avg2, result2);
 const ram = (process.memoryUsage().rss / 1024 / 1024).toFixed(2);
 
 console.log(`\n${__filename.slice(__dirname.length + 1).slice(0, -3)}`);
-console.log(`DeflateSync x ${avg1.toFixed(2)} ops/sec ± ${dev1.toFixed(2)} (${(avg4 * avg1 / 1024 / 1024).toFixed(3)} MB/s)`);
-console.log(`InflateSync x ${avg2.toFixed(2)} ops/sec ± ${dev2.toFixed(2)} (${(avg3 * avg2 / 1024 / 1024).toFixed(3)} MB/s)`);
+console.log(`BrotliCompress stream x ${avg1.toFixed(2)} ops/sec ± ${dev1.toFixed(2)} (${(avg4 * avg1 / 1024 / 1024).toFixed(3)} MB/s)`);
+console.log(`BrotliDecompress stream x ${avg2.toFixed(2)} ops/sec ± ${dev2.toFixed(2)} (${(avg3 * avg2 / 1024 / 1024).toFixed(3)} MB/s)`);
 console.log(`Sampled ${ops} chunks (${(total / 1024 / 1024).toFixed(3)} MB) in ${time.toFixed(3)} seconds`);
 console.log(`Average compression ratio: ${(avg3 * 100 / avg4).toFixed(2)}%`);
 console.log(`Average memory usage: ${ram} MB`);

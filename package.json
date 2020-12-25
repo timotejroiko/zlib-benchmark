@@ -10,10 +10,11 @@
     "url": "https://github.com/timotejroiko/zlib-benchmark.git"
   },
   "dependencies": {
+    "eslint": "^7.16.0",
     "fast-zlib": "^1.0.3",
     "minimist": "^1.2.5",
     "minizlib": "^2.1.2",
-    "pako": "^1.0.11",
+    "pako": "^2.0.2",
     "zlib-sync": "^0.1.7"
   },
   "keywords": [
@@ -29,5 +30,9 @@
     "takeover"
   ],
   "author": "Timotej Valentin Rojko",
+  "funding": {
+		"type": "patreon",
+		"url": "https://patreon.com/timotejroiko"
+	},
   "license": "MIT"
 }
