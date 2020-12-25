@@ -77,7 +77,7 @@ Example:
 
 Tested on an i5 7300HQ 2.5ghz running Node.js v15.4.0
 
-```ruby
+```haskell
 node benchmark.js
 Benchmarking small.json
 
