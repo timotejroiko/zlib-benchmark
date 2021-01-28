@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "eslint": "^7.16.0",
-    "fast-zlib": "^1.0.3",
+    "fast-zlib": "^2.0.0",
     "minimist": "^1.2.5",
     "minizlib": "^2.1.2",
     "pako": "^2.0.2",
@@ -31,8 +31,8 @@
   ],
   "author": "Timotej Valentin Rojko",
   "funding": {
-		"type": "patreon",
-		"url": "https://patreon.com/timotejroiko"
-	},
+    "type": "patreon",
+    "url": "https://patreon.com/timotejroiko"
+  },
   "license": "MIT"
 }
